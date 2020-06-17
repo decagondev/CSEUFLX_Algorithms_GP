@@ -15,6 +15,8 @@ def divides_self(num):
     # check if the digit is zero, or if num mod the digit is not zero
       # return False
 
+    # also divide our value by 10 to make sure we do not get an infinite loop :)
+
   # return True
   pass
 
