@@ -8,3 +8,11 @@
 - 5 min break
 - Demo "first-pass" approaches (knapsack)
 - wrap up
+
+## Day 2
+- quick recap and questions from yesterday
+- 5 min break
+- Evaluations Solutions Naive pass
+- 5 min break
+- Dynamic Programming
+- wrap up
