@@ -39,11 +39,41 @@ def naive_scavenging(field):
     
     # TODO - which function in Python's `itertools` module can we use
     # to generate all possible paths?
+    directions = ['ne', 'e', 'se']
+    count = len(field) - 1
+
+    list_of_perms = list(product(directions, repeat=count))
 
     output = ''
+    max_gold = 0
     
-    # TODO - evaluate each permutation to find the path 
-    # with the most gold along it
+    for perm in list_of_perms:
+        # always start at the top right (northwest) corner
+        total_gold = field[0][0]
+        col=0
+        row=0
+        for dir in perm:
+            if dir == 'se':
+                # break if it is impossible to move in that direction
+                if row >= len(field)-1:
+                    break
+                else:
+                    row += 1
+            elif dir == 'ne':
+                if row<=0:
+                    break
+                else:
+                    row -= 1
+            # update position and add the gold at current 
+            # coordinates to a running total
+            col += 1
+            total_gold += field[row][col]
+
+        # after getting to the edge of the field, check if this path
+        # had more gold than previous paths
+        if total_gold > max_gold:
+            max_gold = total_gold
+            output = f'{max_gold:.3f} can be acquired by moving \n{perm}'
 
     return output
 
