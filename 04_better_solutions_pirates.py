@@ -95,30 +95,45 @@ def dp_scavenging(field):
 
     length = len(field)
 
-    for col in range(length-1, -1, -1): 
+    for col in range(length - 1, -1, -1): 
         for row in range(length): 
             east = 0
             northeast = 0
             southeast = 0
   
             # Gold collected if we chose to go east
-            if (col != length-1): 
-                east = gold_cache[row][col+1] 
+            if (col != length - 1): 
+                east = gold_cache[row][col + 1] 
   
-            # TODO - Gold collected if we chose to go northeast
+            # Gold collected if we chose to go northeast
+            if (row != 0 and col != length-1): 
+                northeast = gold_cache[row - 1][col + 1] 
 
   
-            # TODO - Gold collected if we chose to go southeast
-
+            # Gold collected if we chose to go southeast
+            if (row != length - 1 and col != length-1): 
+                southeast = gold_cache[row + 1][col + 1] 
 
   
             if east > northeast and east > southeast:
                 gold_cache[row][col] += field[row][col] + east
-                if col < length-1:
+                if col < length - 1:
                     path_cache[row][col] += 'e, ' + path_cache[row][col+1]
             
-            # TODO - Handle if southeast or northeast at better paths
-                                      
+            # Handle if southeast or northeast at better paths
+
+            # north west case
+            elif northeast > east and northeast > southeast:
+                gold_cache[row][col] += field[row][col] + northeast
+                if col < length - 1:
+                    path_cache[row][col] += 'ne, ' + path_cache[row - 1][col + 1]
+            
+            # southwest case
+            else:
+                gold_cache[row][col] += field[row][col] + southeast
+                if col < length - 1 and row < length - 1:
+                    path_cache[row][col] += 'ne, ' + path_cache[row + 1][col + 1]
+                                         
     # Since we are requrired to start in the northwest corner, the
     # max amount of gold collected will be the value at [0][0] and
     # path will start from that location
@@ -181,16 +196,16 @@ print(f'\n{naive_scavenging(large_field)}')
 print(f'\nResult calculated in {time.time()-start:.5f} seconds')
 print('\n--------------------------------\n')
 
-# # Test 3 - Dynamic Programming
-# print('Starting test 3, dynamic programming...\ncrossing small field...\n')
-# start = time.time()
-# print(f'\n{dp_scavenging(small_field)}')
-# print(f'\nResult calculated in {time.time()-start:.5f} seconds')
-# print('\n--------------------------------\n')
+# Test 3 - Dynamic Programming
+print('Starting test 3, dynamic programming...\ncrossing small field...\n')
+start = time.time()
+print(f'\n{dp_scavenging(small_field)}')
+print(f'\nResult calculated in {time.time()-start:.5f} seconds')
+print('\n--------------------------------\n')
 
-# # Test 4 - Dynamic Programming
-# print('Starting test 4, dynamic programming...\ncrossing large field...\n')
-# start = time.time()
-# print(f'\n{dp_scavenging(large_field)}')
-# print(f'\nResult calculated in {time.time()-start:.5f} seconds')
-# print('\n--------------------------------\n')
+# Test 4 - Dynamic Programming
+print('Starting test 4, dynamic programming...\ncrossing large field...\n')
+start = time.time()
+print(f'\n{dp_scavenging(large_field)}')
+print(f'\nResult calculated in {time.time()-start:.5f} seconds')
+print('\n--------------------------------\n')
